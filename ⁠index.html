@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My IP Tracker</title>
+  <style>
+    body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; background-color: #f0f2f5; }
+    .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); width: 85%; max-width: 350px; }
+    h2 { margin-top: 0; color: #1c1e21; }
+    p { margin: 10px 0; color: #4b4f56; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Connection Info</h2>
+    <p><strong>IP:</strong> <span id="ip">Loading...</span></p>
+    <p><strong>Location:</strong> <span id="location">Loading...</span></p>
+    <p><strong>ISP:</strong> <span id="isp">Loading...</span></p>
+  </div>
+
+  <script>
+    async function getDetails() {
+      try {
+        const res = await fetch('https://ipapi.co/json/');
+        const data = await res.json();
+        document.getElementById('ip').textContent = data.ip || 'Unavailable';
+        document.getElementById('location').textContent = `${data.city}, ${data.country_name}`;
+        document.getElementById('isp').textContent = data.org;
+      } catch (e) {
+        document.getElementById('ip').textContent = 'Error loading IP';
+      }
+    }
+    getDetails();
+  </script>
+
+</body>
+</html>
